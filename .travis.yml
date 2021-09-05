@@ -22,15 +22,15 @@ after_success:
   - docker push brand13/backend
   - docker push brand13/nginx
 
-deploy:
-  provider: elasticbeanstalk
-  region: "ap-northeast-2"
-  app: "keymamo-fullstack-app"
-  env: "Keymamofullstackapp-env"
-  bucket_name: "elasticbeanstalk-ap-northeast-2-865556076258"
-  bucket_path: "keymamo-fullstack-app"
-  on:
-    branch: master
+# deploy:
+#   provider: elasticbeanstalk
+#   region: "ap-northeast-2"
+#   app: "keymamo-fullstack-app"
+#   env: "Keymamofullstackapp-env"
+#   bucket_name: "elasticbeanstalk-ap-northeast-2-865556076258"
+#   bucket_path: "keymamo-fullstack-app"
+#   on:
+#     branch: master
 
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key: $AWS_SECRET_ACCESS_KEY
+#   access_key_id: $AWS_ACCESS_KEY
+#   secret_access_key: $AWS_SECRET_ACCESS_KEY
