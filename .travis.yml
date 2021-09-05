@@ -1,0 +1,36 @@
+sudo: required
+
+language: generic
+
+services:
+  - docker 
+
+before_install:
+  - docker build -t brand13/docker-react-test -f ./frontend/Dockerfile.dev ./frontend
+
+script:
+  - docker run -e CI=true brand13/docker-react-test npm run test
+
+after_success:
+  - docker build -t brand13/frontend ./frontend
+  - docker build -t brand13/backend ./backend
+  - docker build -t brand13/nginx ./nginx
+
+  - echo "$DOCKER_HUB_PASSWORD" | docker login -u "$DOCKER_HUB_ID" --password-stdin
+
+  - docker push brand13/frontend
+  - docker push brand13/backend
+  - docker push brand13/nginx
+
+deploy:
+  provider: elasticbeanstalk
+  region: "ap-northeast-2"
+  app: "keymamo-fullstack-app"
+  env: "Keymamofullstackapp-env"
+  bucket_name: "elasticbeanstalk-ap-northeast-2-865556076258"
+  bucket_path: "keymamo-fullstack-app"
+  on:
+    branch: master
+
+  access_key_id: $AWS_ACCESS_KEY
+  secret_access_key: $AWS_SECRET_ACCESS_KEY
